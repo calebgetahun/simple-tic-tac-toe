@@ -4,6 +4,8 @@ public class SimpleTicTacToe {
 
     static int spot;
     static Scanner position = new Scanner(System.in);
+    static Scanner p1 = new Scanner(System.in);
+    static Scanner p2 = new Scanner(System.in);
     static List<Integer> player1move = new ArrayList<>();
     static List<Integer> player2move = new ArrayList<>();
 
@@ -14,21 +16,28 @@ public class SimpleTicTacToe {
                 {"-", "+", "-", "+", "-"},
                 {"7", "|", "8", "|", "9"}};
         printboard(board);
+        System.out.println("What is your name, player 1?");
+        String p1 = position.next();
+        System.out.println("What is your name, player 2?");
+        String p2 = position.next();
         boolean pickuser = true;
         while (true) {
             if (pickuser) {
-                promptuser("player 1", "X");
+                promptuser(p1, "X");
                 taketurn(board, spot, "player 1");
                 player1move.add(spot);
+                printboard(board);
+                winningcombos(p1);
             }
             else {
-                promptuser("player 2", "O");
+                promptuser(p2, "O");
                 taketurn(board, spot, "player 2");
                 player2move.add(spot);
+                printboard(board);
+                winningcombos(p2);
             }
-            printboard(board);
+
             pickuser = !pickuser;
-            winningcombos();
         }
     }
 
@@ -42,7 +51,7 @@ public class SimpleTicTacToe {
     }
 
     public static void promptuser(String player, String piece) {
-        System.out.println("What position would you like to place an " + piece + " " + player + " ? (1-9):");
+        System.out.println("What position would you like to place an " + piece + " " + player + "? (1-9):");
         spot = position.nextInt();
         while ((player1move.contains(spot) || player2move.contains(spot)) || spot > 9) {
             System.out.println("You can't pick that! Pick again please " + player);
@@ -92,7 +101,7 @@ public class SimpleTicTacToe {
         }
     }
 
-    public static void winningcombos() {
+    public static void winningcombos(String user) {
 
         List<Integer> toprow = Arrays.asList(1, 2, 3);
         List<Integer> midrow = Arrays.asList(4, 5, 6);
@@ -116,11 +125,11 @@ public class SimpleTicTacToe {
 
         for (List l: winnin) {
             if (player1move.containsAll(l)) {
-                System.out.println("Congrats player 1, you've won!! Thanks for playing");
+                System.out.println("Congrats " + user + ", you've won!! Thanks for playing");
                 System.exit(0);
             }
             else if (player2move.containsAll(l)) {
-                System.out.println("Congrats player 2, you've won!! Thanks for playing");
+                System.out.println("Congrats " + user + ", you've won!! Thanks for playing");
                 System.exit(0);
             }
         }
